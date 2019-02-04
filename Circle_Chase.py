@@ -12,8 +12,8 @@ gameTimer = timer.Timer(100, 550, 100, 50)
 
 speed = 3
 
-xp = 1100
-yp = 300
+xp = 1100 #Variable for X coordinate of Player Circle
+yp = 300 #Variable for Y coordinate of Player Circle
 
 r = 13
 
@@ -26,17 +26,17 @@ col_bott = height - r
 color2 = (0, 0, 255)
 
 clock = pygame.time.Clock()
-def calculate_delta():
+def calculate_delta(): 
         dx = xp - xf
         dy = yp - yf
         return (dx, dy)
-
+                #Function to Calculate the DELTA (Change) in position for the Player Circle
 def calculate_vector_length(v):
         dx = v[0]
         dy = v[1]
         length = math.sqrt(dx**2 + dy**2)
         return length
-
+                #Function to Calculate the length of the straight line between the Player Circle and the AI Circle (The Hypotenuse)
 def normalize_vector(v):
         dx = v[0]
         dy = v[1]
@@ -47,7 +47,7 @@ def normalize_vector(v):
         yn = dy/length
         normalized_vector = (xn, yn)
         return normalized_vector
-
+                #Function to Normalize the Vector (straight line between the Player and AI)
 def calculate_speed_vector(ndv, speed):
         dx = ndv[0]
         dy = ndv[1]
@@ -55,7 +55,7 @@ def calculate_speed_vector(ndv, speed):
         svy = dy*speed
         speed_vector = (svx, svy) 
         return speed_vector
-
+                #Function to Calculate the speed_vector (how fast the position changes and in which direction)
 def ai_position_update(sv, ai_p):
         dx = sv[0]
         dy = sv[1]
@@ -65,7 +65,7 @@ def ai_position_update(sv, ai_p):
         new_y = math.floor(current_y + dy)
         new_position = (new_x, new_y)
         return new_position
-
+                #Function to update the position of the AI Circle after previous calculations have been made
 def detect_circle_collision():
         (dx, dy) = calculate_delta()
         length = calculate_vector_length((dx, dy))
@@ -74,7 +74,7 @@ def detect_circle_collision():
         else:
                 collision = False
         return collision
-
+                #Function to detect whether or not the AI Circle and Player Circle are colliding with each other
 while not done:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:

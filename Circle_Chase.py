@@ -1,4 +1,4 @@
-import pygame, sys, math, timer
+import pygame, sys, math, timer, button
 pygame.init()
 width = 1200
 height = 600
@@ -9,6 +9,8 @@ done = False
 is_red = True
 
 gameTimer = timer.Timer(100, 550, 100, 50)
+
+restartButton = button.Button((255, 0, 0), (178, 34, 34), 550, 275, 100, 50)
 
 speed = 3
 
@@ -98,10 +100,7 @@ while not done:
         new_p = ai_position_update(sv, (xf, yf))
         xf = new_p[0]
         yf = new_p[1]
-        print(detect_circle_collision())
-
-        mouse = pygame.mouse.get_pos()
-        print(mouse)
+        #print(detect_circle_collision())
 
         if detect_circle_collision() == True:
                 done = True
@@ -124,6 +123,16 @@ while not done:
         pygame.display.flip()
         clock.tick(60)
 
-pygame.quit(); sys.exit()
+screen.fill((0,0,0))
+while done:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        pygame.quit(); sys.exit();
+        restartButton.mouseButtonOverlap()
+        restartButton.renderButton(screen)
+        pygame.display.flip()
+
+
+#pygame.quit(); sys.exit()
 
 #Add: Timer/Scorekeeper, "Game Over", Start Over + Message, Obstacles(?)

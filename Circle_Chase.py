@@ -130,6 +130,9 @@ while done:
                         pygame.quit(); sys.exit();
         restartButton.mouseButtonOverlap()
         restartButton.renderButton(screen)
+        restartButton.buttonClicked()
+        if restartButton.clicked:
+                pygame.quit(); sys.exit();
         pygame.display.flip()
 
 

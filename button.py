@@ -9,6 +9,7 @@ class Button:
 
         def __init__(self, buttonColor, buttonColor2, x, y, w, h):
                 self.hovering = False
+                self.clicked = False
                 self.buttonColor = buttonColor
                 self.buttonColor2 = buttonColor2
                 self.upperLeftX = x
@@ -30,4 +31,11 @@ class Button:
                         pygame.draw.rect(screen, self.buttonColor2, (self.upperLeftX, self.upperLeftY, self.width, self.height), 0)
                 else:
                         pygame.draw.rect(screen, self.buttonColor, (self.upperLeftX, self.upperLeftY, self.width, self.height), 0)
-                        
+
+        def buttonClicked(self):
+                if self.hovering == True and pygame.mouse.get_pressed()[0] == True:
+                        self.clicked = True
+                        print(self.clicked)
+                else:
+                        self.clicked = False
+                        print(self.clicked)

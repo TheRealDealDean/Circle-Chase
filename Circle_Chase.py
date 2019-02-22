@@ -1,5 +1,6 @@
 import pygame, sys, math, timer, button
 pygame.init()
+pygame.font.init()
 width = 1200
 height = 600
 screen = pygame.display.set_mode((width, height))
@@ -11,6 +12,8 @@ is_red = True
 gameTimer = timer.Timer(100, 550, 100, 50)
 
 restartButton = button.Button((255, 0, 0), (178, 34, 34), 550, 275, 100, 50)
+
+gameFont = pygame.font.SysFont('segoeui', 26, False, False, None) 
 
 speed = 3
 
@@ -77,63 +80,103 @@ def detect_circle_collision():
                 collision = False
         return collision
                 #Function to detect whether or not the AI Circle and Player Circle are colliding with each other
-while not done:
+
+while True:
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        pygame.quit(); sys.exit();
-                        done = True
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                        is_red = not is_red
+                        if event.type == pygame.QUIT:
+                                pygame.quit(); sys.exit();
+                                done = True
+        done = False
 
-        gameTimer.increaseCount()
-        gameTimer.render()
+        is_red = True
+
+        gameTimer = timer.Timer(100, 550, 100, 50)
+
+        restartButton = button.Button((255, 0, 0), (178, 34, 34), 550, 275, 100, 50)
+
+        gameFont = pygame.font.SysFont('segoeui', 26, False, False, None) 
+
+        speed = 3
+
+        xp = 1100 #Variable for X coordinate of Player Circle
+        yp = 300 #Variable for Y coordinate of Player Circle
+
+        r = 13
+
+        xf = 100
+        yf = 300
+
+        col_right = width - r
+        col_bott = height - r
+
+        color2 = (0, 0, 255)
         
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_UP]: yp -= 5
-        if pressed[pygame.K_DOWN]: yp += 5
-        if pressed[pygame.K_LEFT]: xp -= 5
-        if pressed[pygame.K_RIGHT]: xp += 5
+        while not done:
+                for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                                pygame.quit(); sys.exit();
+                                done = True
+                        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                                is_red = not is_red
 
-        delta = calculate_delta()
-        nv = normalize_vector(delta)
-        sv = calculate_speed_vector(nv, speed)
-        new_p = ai_position_update(sv, (xf, yf))
-        xf = new_p[0]
-        yf = new_p[1]
-        #print(detect_circle_collision())
-
-        if detect_circle_collision() == True:
-                done = True
-        
-        if is_red: color2 = (0, 0, 255)
-        else: color2 = (255, 0, 0)
-
-        if is_red: color = (255, 0, 0)
-        else: color = (0, 0, 255)
-        screen.fill((0, 0, 0))
-        if xp <= r: xp = r
-        if yp <= r: yp = r
-        if xp >= col_right: xp = col_right
-        if yp >= col_bott: yp = col_bott
+                gameTimer.increaseCount()
                 
-        pygame.draw.circle(screen, color, (xp, yp), r)
+                pressed = pygame.key.get_pressed()
+                if pressed[pygame.K_UP]: yp -= 5
+                if pressed[pygame.K_DOWN]: yp += 5
+                if pressed[pygame.K_LEFT]: xp -= 5
+                if pressed[pygame.K_RIGHT]: xp += 5
 
-        pygame.draw.circle(screen, color2, (xf, yf), r)
-        
-        pygame.display.flip()
-        clock.tick(60)
+                delta = calculate_delta()
+                nv = normalize_vector(delta)
+                sv = calculate_speed_vector(nv, speed)
+                new_p = ai_position_update(sv, (xf, yf))
+                xf = new_p[0]
+                yf = new_p[1]
+                #print(detect_circle_collision())
 
-screen.fill((0,0,0))
-while done:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        pygame.quit(); sys.exit();
-        restartButton.mouseButtonOverlap()
-        restartButton.renderButton(screen)
-        restartButton.buttonClicked()
-        if restartButton.clicked:
-                pygame.quit(); sys.exit();
-        pygame.display.flip()
+                if detect_circle_collision() == True:
+                        done = True
+                
+                if is_red: color2 = (0, 0, 255)
+                else: color2 = (255, 0, 0)
+
+                if is_red: color = (255, 0, 0)
+                else: color = (0, 0, 255)
+
+                screen.fill((0, 0, 0))
+                
+                if xp <= r: xp = r
+                if yp <= r: yp = r
+                if xp >= col_right: xp = col_right
+                if yp >= col_bott: yp = col_bott
+                        
+                pygame.draw.circle(screen, color, (xp, yp), r)
+
+                pygame.draw.circle(screen, color2, (xf, yf), r)
+
+                timerString = gameFont.render(gameTimer.render(), True, (255, 255, 255))
+                screen.blit(timerString, (0, 0))
+                
+                pygame.display.flip()
+                clock.tick(60)
+
+        while done:
+                for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                                pygame.quit(); sys.exit();
+
+                screen.fill((0, 0, 0))
+                
+                screen.blit(timerString, (0, 0))
+                
+                restartButton.mouseButtonOverlap()
+                restartButton.renderButton(screen)
+                restartButton.buttonClicked()
+                
+                if restartButton.clicked:
+                        done = False
+                pygame.display.flip()
 
 
 #pygame.quit(); sys.exit()

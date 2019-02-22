@@ -7,7 +7,7 @@ class Button:
 #buttonColor = (255, 0, 0)
 #buttonColor2 = (178, 34, 34)
 
-        def __init__(self, buttonColor, buttonColor2, x, y, w, h):
+        def __init__(self, buttonLabel, buttonColor, buttonColor2, x, y, w, h):
                 self.hovering = False
                 self.clicked = False
                 self.buttonColor = buttonColor
@@ -16,6 +16,7 @@ class Button:
                 self.upperLeftY = y
                 self.width = w
                 self.height = h
+                self.buttonLabel = buttonLabel 
 
         def mouseButtonOverlap(self):
                 mouse = pygame.mouse.get_pos()

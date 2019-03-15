@@ -1,0 +1,5 @@
+HiScore:
+
+The HighScore will be displayed in the top right corner of the screen like so: "HiScore: 000000" only displaying the exact integers and NOT Zefilling empty integers on screen.
+The HighScore will be displayed again in the centre of the screen at the end of each game ontop of the "Restart Button" if the HighScore has not been surpassed.
+If the HighScore has been surpassed, then neither the Highscore nor the Score for the recently ended game will be displayed on the restart screen; instead, "New HiScore: 000000" will be displayed ontop of the "Restart Button."

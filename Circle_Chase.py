@@ -11,7 +11,7 @@ is_red = True
 
 gameTimer = timer.Timer(100, 550, 100, 50)
 
-restartButton = button.Button((255, 0, 0), (178, 34, 34), 550, 275, 100, 50)
+restartButton = button.Button('Restart', (178, 34, 34), (255, 0, 0), 550, 275, 100, 50)
 
 gameFont = pygame.font.SysFont('segoeui', 26, False, False, None) 
 
@@ -92,7 +92,7 @@ while True:
 
         gameTimer = timer.Timer(100, 550, 100, 50)
 
-        restartButton = button.Button((255, 0, 0), (178, 34, 34), 550, 275, 100, 50)
+        restartButton = button.Button('Restart', (178, 34, 34), (255, 0, 0), 550, 275, 100, 50)
 
         gameFont = pygame.font.SysFont('segoeui', 26, False, False, None) 
 

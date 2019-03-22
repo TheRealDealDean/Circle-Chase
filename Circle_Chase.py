@@ -1,9 +1,13 @@
-import pygame, sys, math, timer, button
-pygame.init()
-pygame.font.init()
+import math, timer, button
+from pygame import init, font, time, event, key, draw, display, quit
+from pygame.event import get
+from pygame import K_UP, K_LEFT, K_RIGHT, K_DOWN, K_SPACE, QUIT, KEYDOWN
+from sys import exit
+init()
+font.init()
 width = 1200
 height = 600
-screen = pygame.display.set_mode((width, height))
+screen = display.set_mode((width, height))
 
 done = False
 
@@ -13,7 +17,9 @@ gameTimer = timer.Timer(100, 550, 100, 50)
 
 restartButton = button.Button('Restart', (178, 34, 34), (255, 0, 0), 550, 275, 100, 50)
 
-gameFont = pygame.font.SysFont('segoeui', 26, False, False, None) 
+timerFont = font.SysFont('timesnewroman', 26, False, False, None)
+
+buttonFont = font.SysFont('timesnewroman', 24, False, False, None)
 
 speed = 3
 
@@ -30,7 +36,7 @@ col_bott = height - r
 
 color2 = (0, 0, 255)
 
-clock = pygame.time.Clock()
+clock = time.Clock()
 def calculate_delta(): 
         dx = xp - xf
         dy = yp - yf
@@ -82,9 +88,9 @@ def detect_circle_collision():
                 #Function to detect whether or not the AI Circle and Player Circle are colliding with each other
 
 while True:
-        for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                                pygame.quit(); sys.exit();
+        for e in event.get():
+                        if e.type == QUIT:
+                                quit(); exit();
                                 done = True
         done = False
 
@@ -92,9 +98,7 @@ while True:
 
         gameTimer = timer.Timer(100, 550, 100, 50)
 
-        restartButton = button.Button('Restart', (178, 34, 34), (255, 0, 0), 550, 275, 100, 50)
-
-        gameFont = pygame.font.SysFont('segoeui', 26, False, False, None) 
+        restartButton = button.Button('Restart', (178, 34, 34), (255, 0, 0), 550, 275, 100, 45)
 
         speed = 3
 
@@ -112,20 +116,20 @@ while True:
         color2 = (0, 0, 255)
         
         while not done:
-                for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                                pygame.quit(); sys.exit();
+                for e in event.get():
+                        if e.type == QUIT:
+                                quit(); exit();
                                 done = True
-                        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                        if e.type == KEYDOWN and e.key == K_SPACE:
                                 is_red = not is_red
 
                 gameTimer.increaseCount()
                 
-                pressed = pygame.key.get_pressed()
-                if pressed[pygame.K_UP]: yp -= 5
-                if pressed[pygame.K_DOWN]: yp += 5
-                if pressed[pygame.K_LEFT]: xp -= 5
-                if pressed[pygame.K_RIGHT]: xp += 5
+                pressed = key.get_pressed()
+                if pressed[K_UP]: yp -= 5
+                if pressed[K_DOWN]: yp += 5
+                if pressed[K_LEFT]: xp -= 5
+                if pressed[K_RIGHT]: xp += 5
 
                 delta = calculate_delta()
                 nv = normalize_vector(delta)
@@ -151,34 +155,33 @@ while True:
                 if xp >= col_right: xp = col_right
                 if yp >= col_bott: yp = col_bott
                         
-                pygame.draw.circle(screen, color, (xp, yp), r)
+                draw.circle(screen, color, (xp, yp), r)
 
-                pygame.draw.circle(screen, color2, (xf, yf), r)
+                draw.circle(screen, color2, (xf, yf), r)
 
-                timerString = gameFont.render(gameTimer.render(), True, (255, 255, 255))
+                timerString = timerFont.render(gameTimer.render(), True, (255, 255, 255))
                 screen.blit(timerString, (0, 0))
                 
-                pygame.display.flip()
+                display.flip()
                 clock.tick(60)
 
         while done:
-                for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                                pygame.quit(); sys.exit();
+                for e in event.get():
+                        if e.type == QUIT:
+                                quit(); exit();
 
                 screen.fill((0, 0, 0))
                 
                 screen.blit(timerString, (0, 0))
                 
                 restartButton.mouseButtonOverlap()
-                restartButton.renderButton(screen)
+                restartButton.renderButton(screen, buttonFont)
                 restartButton.buttonClicked()
                 
                 if restartButton.clicked:
                         done = False
-                pygame.display.flip()
+                display.flip()
 
 
-#pygame.quit(); sys.exit()
 
 #Add: Timer/Scorekeeper, "Game Over", Start Over + Message, Obstacles(?)

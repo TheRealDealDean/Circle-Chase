@@ -27,12 +27,14 @@ class Button:
                         self.hovering = False
                         #print(self.hovering)
 
-        def renderButton(self, screen):
+        def renderButton(self, screen, gameFont):
+                buttonString =  gameFont.render(self.buttonLabel, True, (255, 255, 255))
                 if self.hovering:
                         pygame.draw.rect(screen, self.buttonColor2, (self.upperLeftX, self.upperLeftY, self.width, self.height), 0)
                 else:
                         pygame.draw.rect(screen, self.buttonColor, (self.upperLeftX, self.upperLeftY, self.width, self.height), 0)
-
+                screen.blit(buttonString, (self.upperLeftX, self.upperLeftY))
+                
         def buttonClicked(self):
                 if self.hovering == True and pygame.mouse.get_pressed()[0] == True:
                         self.clicked = True

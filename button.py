@@ -27,13 +27,25 @@ class Button:
                         self.hovering = False
                         #print(self.hovering)
 
+        def centreText(self, textSurface):
+                boxCentX = self.width/2
+                boxCentY = self.height/2
+                textCentX = textSurface.get_width()/2
+                textCentY = textSurface.get_height()/2
+                dx = boxCentX - textCentX
+                dy = boxCentY - textCentY
+                textboxX = self.upperLeftX + dx
+                textboxY = self.upperLeftY + dy
+                return (textboxX, textboxY)
+                
+
         def renderButton(self, screen, gameFont):
                 buttonString =  gameFont.render(self.buttonLabel, True, (255, 255, 255))
                 if self.hovering:
                         pygame.draw.rect(screen, self.buttonColor2, (self.upperLeftX, self.upperLeftY, self.width, self.height), 0)
                 else:
                         pygame.draw.rect(screen, self.buttonColor, (self.upperLeftX, self.upperLeftY, self.width, self.height), 0)
-                screen.blit(buttonString, (self.upperLeftX, self.upperLeftY))
+                screen.blit(buttonString, self.centreText(buttonString))
                 
         def buttonClicked(self):
                 if self.hovering == True and pygame.mouse.get_pressed()[0] == True:
